@@ -1,1 +1,15 @@
+1. Indexes on Frequently Queried Fields
+Ensure that the columns used in the JOIN conditions (like job_id, personality_id, job_category_id, etc.) have proper indexes in the database.
+This can speed up queries that involve multiple columns.
+Besides, sorting by Jobs.sort_order and Jobs.id could be costly on large datasets. 
+Make sure that Jobs.sort_order and Jobs.id have indexes too for better performance.
 
+2. Prioritize INNER JOIN
+If a particular table always has data (e.g., job_types or job_categories), 
+use INNER JOIN instead of LEFT JOIN as LEFT JOIN consumes more execution time compare to INNER JOIN.
+
+3. Use MATCH AGAINST rather than LIKE
+The WHERE clause contains many OR conditions with LIKE for the same search term ('%キャビンアテンダント%'). 
+This can be executed more efficiently by using MATCH ... AGAINST (Full-text search), if supported by database, which is much faster for large text-based fields.
+For example :
+WHERE MATCH(Jobs.name, Jobs.description, Jobs.detail, Jobs.business_skill, Jobs.knowledge, Jobs.location, Jobs.activity, Jobs.salary_statistic_group, Jobs.salary_range_remarks, Jobs.restriction, Jobs.remarks) AGAINST ('+キャビンアテンダント' IN BOOLEAN MODE)
