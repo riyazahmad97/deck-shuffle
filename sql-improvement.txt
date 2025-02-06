@@ -1,3 +1,4 @@
+Explanation of the logical improvements on SQL query
 1. Indexes on Frequently Queried Fields
 Ensure that the columns used in the JOIN conditions (like job_id, personality_id, job_category_id, etc.) have proper indexes in the database.
 This can speed up queries that involve multiple columns.
